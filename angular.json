@@ -3,5 +3,41 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "trackit-fe": {
+      "projectType": "library",
+      "root": "projects/trackit-fe",
+      "sourceRoot": "projects/trackit-fe/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/trackit-fe/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/trackit-fe/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/trackit-fe/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/trackit-fe/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
   }
 }
