@@ -41,6 +41,6 @@
   },
 
   "publishConfig": {
-    "@itsd_packages:registry": "https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/"
+    "registry": "https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/"
   }
 }
