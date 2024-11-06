@@ -1,0 +1,2 @@
+//itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/:_authToken=${NPM_A_TOKEN}
+@itsd_packages:registry=https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/
