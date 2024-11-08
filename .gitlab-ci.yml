@@ -19,9 +19,11 @@ build-trackit:
 
 publish-npm:
   stage: deploy
-  script:
-    - cd dist/trackit-fe
+  before_script:
     - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+  script:
+    - cat .npmrc dist/trackit-fe
+    - cd dist/trackit-fe
     - npm publish
   when: manual
