@@ -1,4 +1,49 @@
-# TrackitFe
+# Trackit FE
+
+### Usage with Angular Application (Angular CLI Version >= 18)
+
+To consume 'trackit-fe into Angular FE Applications, please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
+
+- Install using **Npm** `npm install trackit-fe` or **Yarn** `yarn add trackit-fe` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search trackit-fe):
+```
+"node_modules/trackit-fe"
+```
+
+#### Import services and add them to providers array in app.module.ts or main.ts. Make sure to provide the ErrorHandler with our CustomErrorHandlerService from trackit package
+```
+// Importing the services from trackIt
+import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'trackit-fe';
+
+@NgModule({
+  providers: [
+    UpdateWorkerService, TrackitService, CustomErrorHandlerService,
+    { provide: ErrorHandler, useClass: CustomErrorHandlerService }
+  ]
+})
+```
+
+#### Set TrackIt Endpoint using TrackitService
+```
+import { TrackitService } from 'trackit-fe';
+
+constructor(private trackitService: TrackitService) {
+  this.trackitService.trackItEndPoint('/trackit/report');
+}
+```
+
+---
+
+## Usage with Angular PWA Apps (that provide service worker also)
+
+To consume 'trackit-fe into Angular FE Applications, please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
+
+- Install using **Npm** `npm install trackit-fe` or **Yarn** `yarn add trackit-fe` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search trackit-fe):
+```
+"node_modules/trackit-fe"
+```
+---
+
+# TrackitFe Package Info
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
 

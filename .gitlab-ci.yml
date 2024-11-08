@@ -1,5 +1,5 @@
 default:
-  image: node:latest
+  image: node:20
 
 stages:
   - build
@@ -12,7 +12,7 @@ build-trackit:
   - npm install
 
   script:
-    - npm run build
+    - ng build trackit-fe
 
 publish-npm:
   stage: deploy
@@ -20,5 +20,6 @@ publish-npm:
     - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   script:
+    - cd dist/trackit-fe
     - npm publish
   when: manual
