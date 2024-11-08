@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^18.2.0",
     "@angular/cdk": "^18.2.11",
@@ -38,5 +38,9 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^18.2.0",
     "typescript": "~5.5.2"
+  },
+
+  "publishConfig": {
+    "registry": "https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/"
   }
 }
