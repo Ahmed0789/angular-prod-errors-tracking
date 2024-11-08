@@ -31,5 +31,6 @@ publish-npm:
     - cat dist/trackit-fe/.npmrc  # Verify .npmrc inside dist/trackit-fe
     - cd dist/trackit-fe  # Change directory to dist/trackit-fe
     - npm config list  # Debug npm config to ensure it's using the correct registry
-    - npm publish  # Publish to GitLab registry
+    - pwd
+    - npm publish --access restricted # Publish to GitLab registry
   when: manual
