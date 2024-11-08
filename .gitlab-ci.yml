@@ -5,25 +5,24 @@ stages:
   - build
   - deploy
 
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
 build-trackit:
   stage: build
-  before_script:
-    - npm install -g @angular/cli
-    - npm install
   script:
     - ng build trackit-fe
   artifacts:
     paths:
-      - dist/trackit-fe  # Ensures the build output is stored as an artifact
+      - dist/trackit-fe
 
 publish-npm:
   stage: deploy
-  dependencies:
-    - build-trackit  # Use the artifact from the build stage
   before_script:
+    - cd dist/trackit-fe
     - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
   script:
-    - cd dist/trackit-fe  # Navigate to the artifact directory
     - npm publish
   when: manual
