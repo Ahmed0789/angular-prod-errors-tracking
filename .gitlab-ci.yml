@@ -2,7 +2,17 @@ default:
   image: node:latest
 
 stages:
+  - build
   - deploy
+
+build-trackit:
+  stage: build
+  before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+  script:
+    - npm run build
 
 publish-npm:
   stage: deploy
