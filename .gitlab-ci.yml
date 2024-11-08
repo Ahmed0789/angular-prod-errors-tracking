@@ -15,7 +15,7 @@ build-trackit:
     - ng build trackit-fe
   artifacts:
     paths:
-      - dist/trackit-fe
+      - dist/trackit-fe  # Ensure dist/trackit-fe is available in the next stage
 
 publish-npm:
   stage: deploy
@@ -23,11 +23,13 @@ publish-npm:
     - build-trackit
 
   before_script:
-    - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    # Echo the registry URL and auth token directly into .npmrc inside dist/trackit-fe
+    - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > dist/trackit-fe/.npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> dist/trackit-fe/.npmrc
+
   script:
-    - cat .npmrc > dist/trackit-fe/.npmrc
-    - cd dist/trackit-fe
-    - cat .npmrc
-    - npm publish
+    - cat dist/trackit-fe/.npmrc  # Verify .npmrc inside dist/trackit-fe
+    - cd dist/trackit-fe  # Change directory to dist/trackit-fe
+    - npm config list  # Debug npm config to ensure it's using the correct registry
+    - npm publish  # Publish to GitLab registry
   when: manual
