@@ -1,6 +1,6 @@
 {
   "name": "trackit-fe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./fesm2020/trackit-fe.mjs",
   "module": "./fesm2020/trackit-fe.mjs",
   "es2015": "./esm2020/trackit-fe.mjs",
