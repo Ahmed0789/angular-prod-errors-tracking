@@ -20,7 +20,7 @@ export interface ITrackItReport {
 
 export class TrackitService {
 
-  private readonly buildTrackItURL: string = '/trackit/report';
+  private buildTrackItURL: string = '/trackit/report';
   private errorLocationExtracted: string = 'Error location not found'; 
   private readonly httpOptions = {
     headers: new HttpHeaders({
@@ -38,6 +38,10 @@ export class TrackitService {
   async initialise() {
     await this.listenForMessages();
     this.requestNotificationPermission();
+  }
+
+  set environmentApiUrl(trackitBackend: string) {
+    this.buildTrackItURL = trackitBackend + this.buildTrackItURL;
   }
 
   public async listenForMessages(): Promise<void> {
