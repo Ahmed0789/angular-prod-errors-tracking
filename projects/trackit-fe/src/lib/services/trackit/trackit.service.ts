@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, isDevMode, inject } from '@angular/core';
 import { debounceTime, retry } from 'rxjs/operators';
 import { SourceMapConsumer } from 'source-map-js'; // Import source-map-js library
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
 export interface ITrackItReport {
   error_message: string;
   http_method: string;
@@ -16,9 +17,10 @@ export interface ITrackItReport {
 @Injectable({
   providedIn: 'root',
 })
+
 export class TrackitService {
 
-  private buildTrackItURL: string = location.hostname;
+  private readonly buildTrackItURL: string = '/trackit/report';
   private errorLocationExtracted: string = 'Error location not found'; 
   private readonly httpOptions = {
     headers: new HttpHeaders({
@@ -29,18 +31,13 @@ export class TrackitService {
   private isProcessing = false;
 
   public errorReport: any;
+  private readonly sB = inject(MatSnackBar);
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
-  constructor(
-    private sB: MatSnackBar,
-    private http: HttpClient,
-    private router: Router
-  ) { 
-    this.listenForMessages();
+  async initialise() {
+    await this.listenForMessages();
     this.requestNotificationPermission();
-  }
-
-  set trackItEndPoint(url: string) {
-    this.buildTrackItURL = this.buildTrackItURL + url;
   }
 
   public async listenForMessages(): Promise<void> {
@@ -285,3 +282,7 @@ export class TrackitService {
   }
   
 }
+(async () => {
+  const trackitService = new TrackitService;
+  await trackitService.initialise();
+})

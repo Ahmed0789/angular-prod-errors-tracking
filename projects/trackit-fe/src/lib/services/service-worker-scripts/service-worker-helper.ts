@@ -10,9 +10,9 @@ export class UpdateWorkerService {
   isNewVersionAvailable: boolean = false;
   intervalSubscription!: Subscription;
   intervalSource = interval(15 * 60 * 1000); // every 15 mins
-  private swUpdate = inject(SwUpdate);
-  private zone = inject(NgZone);
-  private snackBar = inject(MatSnackBar);
+  private readonly swUpdate = inject(SwUpdate);
+  private readonly zone = inject(NgZone);
+  private readonly snackBar = inject(MatSnackBar);
 
   /**
    * Register service worker to provide support for trackit error caching
