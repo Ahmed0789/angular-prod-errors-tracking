@@ -33,12 +33,12 @@ import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from '
 })
 ```
 
-#### Set TrackIt backend api url using TrackitService
+#### Set Trackit backend api url using a baseUrl without '/api' prefix.
 ```
 import { TrackitService } from 'trackit-fe';
 
-constructor(private trackitService: TrackitService) {
-  this.trackitService.environmentApiUrl(environment.baseUrl);
+constructor(private trackitSer: TrackitService) {
+  this.trackitSer.environmentApiUrl = environment.baseURL;
 }
 ```
 
@@ -62,12 +62,12 @@ import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from '
 })
 ```
 
-#### Set Trackit backend api url and register a service worker using TrackitService & UpdateWorkerService
+#### Set Trackit backend api url using a baseUrl without '/api' prefix. Optional - register a service worker using TrackitService & UpdateWorkerService
 ```
 import { TrackitService, UpdateWorkerService } from 'trackit-fe';
 
-constructor(private trackitService: TrackitService, private readonly sww: UpdateWorkerService) {
-  this.trackitService.environmentApiUrl(environment.baseUrl);
+constructor(private trackitSer: TrackitService, private readonly sww: UpdateWorkerService) {
+  this.trackitSer.environmentApiUrl = environment.baseURL;
   UpdateWorkerService.registerServiceWorker(); // Register service worker when app starts
   this.sww.checkForUpdate(); // Check for updates if needed
 }
