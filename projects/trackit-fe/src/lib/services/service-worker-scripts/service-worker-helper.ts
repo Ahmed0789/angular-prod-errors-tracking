@@ -16,17 +16,16 @@ export class UpdateWorkerService {
 
   /**
    * Register service worker to provide support for trackit error caching
-   * @static
    * @memberof UpdateWorkerService
    */
-  static registerServiceWorker() {
+  registerServiceWorker(): void {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/assets/js/worker.js')
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
         .catch(error => {
-          console.error('Service Worker registration failed:', error);
+          console.log('Service Worker registration failed:', error);
         });
     }
   }
