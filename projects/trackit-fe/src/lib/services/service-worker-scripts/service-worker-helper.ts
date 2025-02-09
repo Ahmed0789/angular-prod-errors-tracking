@@ -21,7 +21,7 @@ export class UpdateWorkerService {
    */
   static registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./worker.js')
+      navigator.serviceWorker.register('/assets/js/worker.js')
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
