@@ -4,6 +4,7 @@ import { debounceTime, retry } from 'rxjs/operators';
 import { SourceMapConsumer } from 'source-map-js'; // Import source-map-js library
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 export interface ITrackItReport {
   error_message: string;
@@ -34,6 +35,7 @@ export class TrackitService {
   private readonly sB = inject(MatSnackBar);
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly location = inject(Location);
 
   async initialise() {
     await this.listenForMessages();
@@ -49,7 +51,7 @@ export class TrackitService {
       const {type, message, errorCache} = event.data;
         console.log('Received a message from service worker: ', event.data);
         if (event.data && event.data.type === 'ERROR_REPORT_SENT') {
-          const sourceMappedErrLoca = await this.handleMappedError(errorCache);
+          await this.handleMappedError(errorCache);
           this.errorReport = await this.createErrorReport(errorCache, errorCache.capturedUrl, 'offline');
           await this.sendErrorReport(this.errorReport, event.data.message);
         }
@@ -82,8 +84,8 @@ export class TrackitService {
         const msg = 'An error was encountered. A report has been sent to TrackIt for investigation.';
         await this.sendErrorReport(this.errorReport, msg);
         setTimeout(()=>{
-          this.router.navigateByUrl('/dashboard');
-        }, 5000)
+          this.location.back()
+        }, 6000)
       }
     } catch (err) {
       console.log('trackError: TrackIt error -', err);
