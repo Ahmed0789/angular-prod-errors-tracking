@@ -1,0 +1,25 @@
+image: node:20
+
+stages:
+  - build
+  - publish
+
+variables:
+  NPM_REGISTRY_URL: "https://itsd-gitlab.fera.co.uk/"
+
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+publish:
+  stage: publish
+  script:
+    - echo "//${NPM_REGISTRY_URL}:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
+    - npm publish --access restricted
+  only:
+    - dist

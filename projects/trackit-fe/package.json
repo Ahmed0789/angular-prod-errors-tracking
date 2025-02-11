@@ -1,0 +1,20 @@
+{
+  "name": "trackit-fe",
+  "version": "0.0.8",
+  "main": "./fesm2020/trackit-fe.mjs",
+  "module": "./fesm2020/trackit-fe.mjs",
+  "es2015": "./esm2020/trackit-fe.mjs",
+  "typings": "./index.d.ts",
+  "optionalDependencies": {
+    "@angular/service-worker": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/service-worker": "^18.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

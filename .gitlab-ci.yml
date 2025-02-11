@@ -1,0 +1,36 @@
+default:
+  image: node:22
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+build-trackit:
+  stage: build
+  script:
+    - ng build trackit-fe
+  artifacts:
+    paths:
+      - dist/trackit-fe  # Ensure dist/trackit-fe is available in the next stage
+
+publish-npm:
+  stage: deploy
+  dependencies:
+    - build-trackit
+
+  before_script:
+     # Clear npm cache to avoid issues with cached tokens
+    - npm cache clean --force
+    # Set registry to GitLab registry and ensure it's in .npmrc inside dist/trackit-fe
+    - npm config set registry https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
+    - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > dist/trackit-fe/.npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> dist/trackit-fe/.npmrc
+  script:
+    - cat dist/trackit-fe/.npmrc  # Verify .npmrc inside dist/trackit-fe
+    - cd dist/trackit-fe  # Change directory to dist/trackit-fe
+    - npm publish
+  when: manual
