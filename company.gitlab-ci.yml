@@ -1,0 +1,36 @@
+default:
+  image: node:22
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+build-trackit:
+  stage: build
+  script:
+    - ng build angular-prod-errors-tracking
+  artifacts:
+    paths:
+      - dist/angular-prod-errors-tracking  # Ensure dist/angular-prod-errors-tracking is available in the next stage
+
+publish-npm:
+  stage: deploy
+  dependencies:
+    - build-trackit
+
+  before_script:
+     # Clear npm cache to avoid issues with cached tokens
+    - npm cache clean --force
+    # Set registry to GitLab registry and ensure it's in .npmrc inside dist/angular-prod-errors-tracking
+    - npm config set registry https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
+    - echo "@itsd_packages:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > dist/angular-prod-errors-tracking/.npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> dist/angular-prod-errors-tracking/.npmrc
+  script:
+    - cat dist/angular-prod-errors-tracking/.npmrc  # Verify .npmrc inside dist/angular-prod-errors-tracking
+    - cd dist/angular-prod-errors-tracking  # Change directory to dist/angular-prod-errors-tracking
+    - npm publish
+  when: manual
