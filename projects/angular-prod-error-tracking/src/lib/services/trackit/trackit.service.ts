@@ -130,7 +130,7 @@ export class TrackitService {
     if (match) {
       const [fullMatch, fileName, line, column] = match;
 
-      const sourceMapUrl = isDevMode() ? `${fileName}.map` : `${fileName.replace('/main-', '/bond/main-')}.map`;
+      const sourceMapUrl = `${fileName}.map`;
       
       console.log(`Stack trace matched file: ${fileName}, line: ${line}, column: ${column}`, match);
   

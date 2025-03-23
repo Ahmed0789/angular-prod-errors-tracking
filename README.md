@@ -2,28 +2,32 @@
 
 
 
-To consume 'trackit-fe into Angular FE Applications, please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
+To consume 'angular-prod-errors-tracking into Angular Applications, 
+**
+the app needs /dist to have all map.js & .js files, your application Production build configuration should have:
+`"sourceMap":{
+      "hidden": true,
+      "scripts": true,
+      "styles": true
+    },
+`
+** 
 
-1) Add a `.npmrc` to project root and make sure to list the file in `.gitignore`.
+please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
 
-**.npmrc**
+1) In terminal install using **Npm** `npm i angular-prod-errors-tracking` or **Yarn** `yarn add angular-prod-errors-tracking` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search angular-prod-errors-tracking):
 ```
-@itsd_packages:registry=https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/
-//itsd.gitlab.fera.co.uk/api/v4/projects/517/packages/npm/:_authToken="AccessTokenValue"
+"node_modules/angular-prod-errors-tracking"
 ```
-
-2) In terminal install using **Npm** `npm i trackit-fe --registry=https://itsd-gitlab.fera.co.uk/api/v4/projects/517/packages/npm/` or **Yarn** `yarn add trackit-fe` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search trackit-fe):
-```
-"node_modules/trackit-fe"
-```
-3) Usage, see below:
+2) Usage, see below:
 
 ### Usage with Angular Application (Angular CLI Version >= 18)
 
 #### Import services and add them to providers array in app.module.ts or main.ts. Make sure to provide the ErrorHandler with our CustomErrorHandlerService from trackit package
+
 ```
 // Importing the services from trackIt
-import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'trackit-fe';
+import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'angular-prod-errors-tracking';
 
 @NgModule({
   providers: [
@@ -33,9 +37,9 @@ import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from '
 })
 ```
 
-#### Set Trackit backend api url using a baseUrl without '/api' prefix.
+#### Set Tracking backend api url using a baseUrl without '/api' prefix.
 ```
-import { TrackitService } from 'trackit-fe';
+import { TrackitService } from 'angular-prod-errors-tracking';
 
 constructor(private trackitSer: TrackitService) {
   this.trackitSer.environmentApiUrl = environment.baseURL;
@@ -52,7 +56,7 @@ Follow the steps at the top to install **Trackit FE** package.
 
 ```
 // Importing the services from trackIt
-import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'trackit-fe';
+import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'angular-prod-errors-tracking';
 
 @NgModule({
   providers: [
@@ -64,7 +68,7 @@ import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from '
 
 #### Set Trackit backend api url using a baseUrl without '/api' prefix. Optional - register a service worker using TrackitService & UpdateWorkerService
 ```
-import { TrackitService, UpdateWorkerService } from 'trackit-fe';
+import { TrackitService, UpdateWorkerService } from 'angular-prod-errors-tracking';
 
 constructor(private trackitSer: TrackitService, private readonly sww: UpdateWorkerService) {
   this.trackitSer.environmentApiUrl = environment.baseURL;

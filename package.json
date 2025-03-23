@@ -1,10 +1,10 @@
 {
-  "name": "trackit-fe",
-  "version": "0.0.8",
+  "name": "angular-prod-errors-tracking",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build trackit-fe",
+    "build": "ng build angular-prod-errors-tracking",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

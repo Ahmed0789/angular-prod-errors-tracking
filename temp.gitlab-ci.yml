@@ -5,7 +5,7 @@ stages:
   - publish
 
 variables:
-  NPM_REGISTRY_URL: "https://itsd-gitlab.fera.co.uk/"
+  NPM_REGISTRY_URL: "https://company.co.uk/"
 
 before_script:
   - npm install -g @angular/cli
