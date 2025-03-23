@@ -2,19 +2,62 @@
 
 ## Catch errors in Angular production environment and track their exact location details and it generates a report for you to send to ES server or a custom indexing logs api.
 
+
+To consume 'angular-prod-errors-tracking into Angular Applications, 
+**
+the app needs /dist to have all map.js & .js files, your application Production build configuration should have:
+`"sourceMap":{
+      "hidden": true,
+      "scripts": true,
+      "styles": true
+    },
+`
+** 
+
+please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
+
+1) In terminal install using **Npm** `npm i angular-prod-errors-tracking` or **Yarn** `yarn add angular-prod-errors-tracking` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search angular-prod-errors-tracking):
+```
+"node_modules/angular-prod-errors-tracking"
+```
+2) Usage, see below:
+
 ### Usage with Angular Application (Angular CLI Version >= 18)
 
-To consume 'trackit-fe into Angular FE Applications, please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
-
-- Install using **Npm** `npm install trackit-fe` or **Yarn** `yarn add trackit-fe` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search trackit-fe):
-```
-"node_modules/trackit-fe"
-```
-
 #### Import services and add them to providers array in app.module.ts or main.ts. Make sure to provide the ErrorHandler with our CustomErrorHandlerService from trackit package
+
 ```
 // Importing the services from trackIt
-import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'trackit-fe';
+import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'angular-prod-errors-tracking';
+
+@NgModule({
+  providers: [
+    TrackitService, CustomErrorHandlerService,
+    { provide: ErrorHandler, useClass: CustomErrorHandlerService }
+  ]
+})
+```
+
+#### Set Tracking backend api url using a baseUrl without '/api' prefix.
+```
+import { TrackitService } from 'angular-prod-errors-tracking';
+
+constructor(private trackitSer: TrackitService) {
+  this.trackitSer.environmentApiUrl = environment.baseURL;
+}
+```
+
+---
+
+## Usage with Angular PWA Apps (that provides service worker support)
+
+Follow the steps at the top to install **Trackit FE** package.
+
+#### Import services and add them to providers array in app.module.ts or main.ts. Make sure to provide the ErrorHandler with our CustomErrorHandlerService from trackit package
+
+```
+// Importing the services from trackIt
+import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from 'angular-prod-errors-tracking';
 
 @NgModule({
   providers: [
@@ -24,25 +67,17 @@ import { TrackitService, CustomErrorHandlerService, UpdateWorkerService } from '
 })
 ```
 
-#### Set TrackIt Endpoint using TrackitService
+#### Set Trackit backend api url using a baseUrl without '/api' prefix. Optional - register a service worker using TrackitService & UpdateWorkerService
 ```
-import { TrackitService } from 'trackit-fe';
+import { TrackitService, UpdateWorkerService } from 'angular-prod-errors-tracking';
 
-constructor(private trackitService: TrackitService) {
-  this.trackitService.trackItEndPoint('/trackit/report');
+constructor(private trackitSer: TrackitService, private readonly sww: UpdateWorkerService) {
+  this.trackitSer.environmentApiUrl = environment.baseURL;
+  UpdateWorkerService.registerServiceWorker(); // Register service worker when app starts
+  this.sww.checkForUpdate(); // Check for updates if needed
 }
 ```
 
----
-
-## Usage with Angular PWA Apps (that provide service worker also)
-
-To consume 'trackit-fe into Angular FE Applications, please make sure that `@angular/cli version >= 18.0.0`, next set of steps:
-
-- Install using **Npm** `npm install trackit-fe` or **Yarn** `yarn add trackit-fe` (make sure your using correct `node >= 20`), you should check your package-lock.json (`ctrl + f`, search trackit-fe):
-```
-"node_modules/trackit-fe"
-```
 ---
 
 # TrackitFe Package Info
