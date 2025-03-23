@@ -1,5 +1,6 @@
-# Trackit FE
+# Angular Production Errors Tracking (NOT PUBLISHED YET, IT IS NOT CONSUMBLE VIA NPM)
 
+## Catch errors in Angular production environment and track their exact location details and it generates a report for you to send to ES server or a custom indexing logs api.
 
 
 To consume 'angular-prod-errors-tracking into Angular Applications, 
